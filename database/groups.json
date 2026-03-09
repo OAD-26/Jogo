@@ -1,0 +1,53 @@
+{
+  "120363402989073753@g.us": {
+    "antilink": true,
+    "antilinkAction": "delete",
+    "antitag": true,
+    "antitagAction": "delete",
+    "antiall": false,
+    "antiviewonce": true,
+    "antibot": true,
+    "anticall": true,
+    "antigroupmention": true,
+    "antigroupmentionAction": "delete",
+    "welcome": true,
+    "welcomeMessage": "🔥 A new soul enters the volcano. Welcome @user to the domain of *#group*!",
+    "goodbye": true,
+    "goodbyeMessage": "🌋 Another weakling has left the flames. Goodbye @user.",
+    "antiSpam": true,
+    "antidelete": true,
+    "nsfw": false,
+    "detect": true,
+    "chatbot": false,
+    "autosticker": true
+  },
+  "120363419708241503@g.us": {
+    "antilink": true,
+    "antilinkAction": "delete",
+    "antitag": true,
+    "antitagAction": "delete",
+    "antiall": false,
+    "antiviewonce": true,
+    "antibot": true,
+    "anticall": true,
+    "antigroupmention": true,
+    "antigroupmentionAction": "delete",
+    "welcome": true,
+    "welcomeMessage": "🔥 A new soul enters the volcano. Welcome @user to the domain of *#group*!",
+    "goodbye": true,
+    "goodbyeMessage": "🌋 Another weakling has left the flames. Goodbye @user.",
+    "antiSpam": true,
+    "antidelete": true,
+    "nsfw": false,
+    "detect": true,
+    "chatbot": false,
+    "autosticker": true
+  },
+  "120363406294425069@g.us": {
+    "welcome": true,
+    "goodbye": true
+  },
+  "120363421208560928@g.us": {
+    "welcome": true
+  }
+}
