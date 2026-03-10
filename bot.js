@@ -70,9 +70,22 @@ async function startBot() {
       if (u.connection === 'open') {
         console.log('🔥 JOGO IS ONLINE');
         
+        // Connection Success Message
+        const ownerNumber = config.ownerNumber[0];
+        const ownerJid = ownerNumber.includes('@s.whatsapp.net') ? ownerNumber : `${ownerNumber}@s.whatsapp.net`;
+        sock.sendMessage(ownerJid, { text: "✅ *Connection Successful*\n\nHello 👋\nYour WhatsApp is now connected to the bot.\n\nYou can now use all available commands.\n\nType:\n\n.menu\n\nto see the full command list.\n\nEnjoy using the bot 🚀" });
+
         // Send socket info to parent
         if (process.send) process.send({ type: 'socket', data: sock });
         
+        // Initialize Health System
+        try {
+            const { initHealthSystem } = require('./utils/healthSystem');
+            initHealthSystem(sock);
+        } catch (e) {
+            console.error('HealthSystem Init Error:', e);
+        }
+
         // Initialize Auto Posting System
         try {
             const { initAutoPost } = require('./utils/autoPost');

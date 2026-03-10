@@ -57,6 +57,15 @@ module.exports = {
         menuText += `│ ∘ ${config.prefix}sticker <cat> <name> - Get one\n`;
         menuText += `╰─══════════════════\n\n`;
 
+        menuText += `*🏥 HEALTH & FEEDBACK*\n`;
+        menuText += `│ ∘ ${config.prefix}botcheck - Health report\n`;
+        menuText += `│ ∘ ${config.prefix}botdetails - Error report\n`;
+        menuText += `│ ∘ ${config.prefix}botstatus - Uptime & stats\n`;
+        menuText += `│ ∘ ${config.prefix}feedback <msg> - Send to owner\n`;
+        menuText += `│ ∘ ${config.prefix}comment <msg> - Leave a comment\n`;
+        menuText += `│ ∘ ${config.prefix}creator - Contact info\n`;
+        menuText += `╰─══════════════════\n\n`;
+
         menuText += `*👑 OWNER COMMANDS*\n`;
         menuText += `│ ∘ ${config.prefix}restart - Reboot the domain\n`;
         menuText += `│ ∘ ${config.prefix}eval [code] - Execute JS\n`;

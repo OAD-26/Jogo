@@ -143,6 +143,40 @@ module.exports = {
            return sock.sendMessage(from, { text: "❓ *USAGE:*\n.entrance on\n.entrance off\n.entrance allow\n.entrance disallow" });
         }
 
+        // Health & Feedback Commands
+        if (['botcheck', 'botdetails', 'botstatus', 'feedback', 'comment', 'creator'].includes(commandName)) {
+            const health = require('./utils/healthSystem');
+            const reply = (t) => sock.sendMessage(from, { text: t }, { quoted: msg });
+
+            if (commandName === 'botcheck') {
+                return reply(health.getHealthReport());
+            } else if (commandName === 'botdetails') {
+                const stats = db.read(health.statsPath) || { commands: {} };
+                let failedCmds = Object.keys(stats.commands || {}).filter(name => stats.commands[name].fail > stats.commands[name].success);
+                let report = `📊 *Bot Detailed Report*\n\nModules Active:\n• AI System\n• Educational System\n• JAMB System\n• Sticker System\n• Anti Delete System\n\nFailed Commands:\n${failedCmds.length ? failedCmds.join('\n') : 'None'}`;
+                return reply(report);
+            } else if (commandName === 'botstatus') {
+                const uptime = process.uptime();
+                const hours = Math.floor(uptime / 3600);
+                const minutes = Math.floor((uptime % 3600) / 60);
+                const stats = db.read(health.statsPath) || {};
+                let status = `📡 *Bot Status*\n\nUptime: ${hours}h ${minutes}m\nCommands Loaded: ${commands.size}\nConnected Users: ${stats.users?.length || 1}\nActive Groups: ${isGroup ? '1+' : '0'}`;
+                return reply(status);
+            } else if (commandName === 'feedback' || commandName === 'comment') {
+                if (!args[0]) return reply(`⚠️ Usage: .${commandName} <message>`);
+                const feedback = db.read(health.feedbackPath) || [];
+                feedback.push({ user: sender, type: commandName, message: args.join(' '), time: new Date() });
+                db.write(health.feedbackPath, feedback);
+                
+                const ownerNumber = config.ownerNumber[0];
+                const ownerJid = ownerNumber.includes('@s.whatsapp.net') ? ownerNumber : `${ownerNumber}@s.whatsapp.net`;
+                await sock.sendMessage(ownerJid, { text: `📩 *New Bot ${commandName.toUpperCase()}*\n\nUser: ${sender.split('@')[0]}\nMessage: ${args.join(' ')}` });
+                return reply("✅ Thank you for your feedback! It has been sent to the creator.");
+            } else if (commandName === 'creator') {
+                return reply(`👤 *Creator Information*\n\nName: OAD-26\nContact: +2349138385352\nEmail: oad262626@gmail.com\n\nFor feedback or issues please use:\n.feedback <message>`);
+            }
+        }
+
         // Auto Post Commands
         if (['allowpost', 'removepost', 'listpostgroups'].includes(commandName)) {
             const postGroupsPath = path.join(__dirname, './database/postGroups.json');
@@ -203,8 +237,12 @@ module.exports = {
             react: (e) => sock.sendMessage(from, { react: { text: e, key: msg.key } })
           };
           try {
+            const { trackCommand } = require('./utils/healthSystem');
             await cmd.execute(sock, msg, args, ctx);
+            trackCommand(commandName, true);
           } catch (err) {
+            const { trackCommand } = require('./utils/healthSystem');
+            trackCommand(commandName, false);
             console.error(`❌ Command Execution Error (${commandName}):`, err);
             sock.sendMessage(from, { text: "⚠️ An error occurred while executing this command." });
           }
