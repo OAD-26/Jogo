@@ -44,6 +44,19 @@ module.exports = {
         menuText += `│ ∘ ${config.prefix}dailyfact / .wordoftheday\n`;
         menuText += `╰─══════════════════\n\n`;
 
+        menuText += `*📮 AUTO POST SERVICES*\n`;
+        menuText += `│ ∘ ${config.prefix}allowpost - Enable in group\n`;
+        menuText += `│ ∘ ${config.prefix}removepost - Disable in group\n`;
+        menuText += `│ ∘ ${config.prefix}listpostgroups - Show groups\n`;
+        menuText += `╰─══════════════════\n\n`;
+
+        menuText += `*🎨 STICKER SERVICES*\n`;
+        menuText += `│ ∘ ${config.prefix}savesticker <cat> - Save sticker\n`;
+        menuText += `│ ∘ ${config.prefix}stickerpack <cat> - Get pack (PM)\n`;
+        menuText += `│ ∘ ${config.prefix}liststickers - Show packs\n`;
+        menuText += `│ ∘ ${config.prefix}sticker <cat> <name> - Get one\n`;
+        menuText += `╰─══════════════════\n\n`;
+
         menuText += `*👑 OWNER COMMANDS*\n`;
         menuText += `│ ∘ ${config.prefix}restart - Reboot the domain\n`;
         menuText += `│ ∘ ${config.prefix}eval [code] - Execute JS\n`;

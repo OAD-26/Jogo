@@ -73,6 +73,14 @@ async function startBot() {
         // Send socket info to parent
         if (process.send) process.send({ type: 'socket', data: sock });
         
+        // Initialize Auto Posting System
+        try {
+            const { initAutoPost } = require('./utils/autoPost');
+            initAutoPost(sock);
+        } catch (e) {
+            console.error('AutoPost Init Error:', e);
+        }
+
         // Initialize Self Ping System
         if (!selfPingInterval) {
           initializeSelfPing(sock);

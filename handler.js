@@ -143,6 +143,52 @@ module.exports = {
            return sock.sendMessage(from, { text: "❓ *USAGE:*\n.entrance on\n.entrance off\n.entrance allow\n.entrance disallow" });
         }
 
+        // Auto Post Commands
+        if (['allowpost', 'removepost', 'listpostgroups'].includes(commandName)) {
+            const postGroupsPath = path.join(__dirname, './database/postGroups.json');
+            let groups = db.read(postGroupsPath);
+            if (!Array.isArray(groups)) groups = [];
+
+            if (commandName === 'allowpost') {
+                if (!isGroup) return sock.sendMessage(from, { text: "⚠️ This command must be used in a group." });
+                if (!groups.includes(from)) {
+                    groups.push(from);
+                    db.write(postGroupsPath, groups);
+                    return sock.sendMessage(from, { text: "✅ This group is now allowed for automatic posts." });
+                } else {
+                    return sock.sendMessage(from, { text: "🌋 This group is already allowed." });
+                }
+            } else if (commandName === 'removepost') {
+                if (!isGroup) return sock.sendMessage(from, { text: "⚠️ This command must be used in a group." });
+                groups = groups.filter(g => g !== from);
+                db.write(postGroupsPath, groups);
+                return sock.sendMessage(from, { text: "⛔ Automatic posts disabled in this group." });
+            } else if (commandName === 'listpostgroups') {
+                let text = "📋 *Allowed Groups for Auto Post:*\n";
+                for (let g of groups) text += `- ${g}\n`;
+                return sock.sendMessage(from, { text: text });
+            }
+        }
+
+        // Sticker System Commands
+        if (['savesticker', 'stickerpack', 'liststickers', 'sticker'].includes(commandName)) {
+            const ss = require('./utils/stickerSystem');
+            const reply = (t) => sock.sendMessage(from, { text: t }, { quoted: msg });
+            
+            if (commandName === 'savesticker') {
+                if (!args[0]) return reply("⚠️ Usage: .savesticker <category>");
+                return await ss.saveSticker(sock, msg, args[0], reply);
+            } else if (commandName === 'stickerpack') {
+                if (!args[0]) return reply("⚠️ Usage: .stickerpack <category>");
+                return await ss.sendPack(sock, msg, args[0], from, sender, reply);
+            } else if (commandName === 'liststickers') {
+                return ss.listPacks(reply);
+            } else if (commandName === 'sticker') {
+                if (!args[0] || !args[1]) return reply("⚠️ Usage: .sticker <category> <name>");
+                return await ss.sendSingle(sock, args[0], args[1], sender, reply);
+            }
+        }
+
         if (['explain', 'shortnote', 'brief', 'define', 'summary', 'mention', 'example', 'facts', 'history', 'uses', 'ask', 'solve', 'homework', 'study', 'lesson', 'quiz', 'mcq', 'test', 'solveimage', 'readimage', 'jamb', 'jambanswer', 'jambsolve', 'jambrandom', 'dailyfact', 'wordoftheday', 'sciencefact', 'mathsolve', 'translate', 'grammarcheck', 'paraphrase'].includes(commandName)) {
             const edu = require('./commands/education/edu');
             return await edu.execute(sock, msg, args, { from, sender, isOwner, isGroup, reply: (t) => sock.sendMessage(from, { text: t }, { quoted: msg }) });
