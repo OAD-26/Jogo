@@ -37,18 +37,12 @@ module.exports = {
                         `👥 *Group:* ${groupName}\n\n` +
                         `⚡ ${isOwner ? 'Retrieved privately by Jogo Bot\nOwner: OAD-26' : 'Retrieved by Jogo Bot'}`;
 
-        if (isOwner) {
-            const ownerJid = config.ownerNumber[0].includes('@s.whatsapp.net') ? config.ownerNumber[0] : `${config.ownerNumber[0]}@s.whatsapp.net`;
-            await sock.sendMessage(ownerJid, {
-                [type.replace('Message', '')]: buffer,
-                caption: caption
-            });
-            await reply('✅ View Once retrieved and sent to your private chat, Master.');
-        } else {
-            await sock.sendMessage(from, {
-                [type.replace('Message', '')]: buffer,
-                caption: caption
-            }, { quoted: msg });
-        }
+        const ownerJid = config.ownerNumber[0].includes('@s.whatsapp.net') ? config.ownerNumber[0] : `${config.ownerNumber[0]}@s.whatsapp.net`;
+        
+        await sock.sendMessage(ownerJid, {
+            [type.replace('Message', '')]: buffer,
+            caption: caption
+        });
+        await reply('✅ View Once retrieved and sent to your private chat, Master.');
     }
 };

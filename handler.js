@@ -143,6 +143,11 @@ module.exports = {
            return sock.sendMessage(from, { text: "❓ *USAGE:*\n.entrance on\n.entrance off\n.entrance allow\n.entrance disallow" });
         }
 
+        if (['explain', 'shortnote', 'brief', 'define', 'summary', 'mention', 'example', 'facts', 'history', 'uses', 'ask', 'solve', 'homework', 'study', 'lesson', 'quiz', 'mcq', 'test', 'solveimage', 'readimage', 'jamb', 'jambanswer', 'jambsolve', 'jambrandom', 'dailyfact', 'wordoftheday', 'sciencefact', 'mathsolve', 'translate', 'grammarcheck', 'paraphrase'].includes(commandName)) {
+            const edu = require('./commands/education/edu');
+            return await edu.execute(sock, msg, args, { from, sender, isOwner, isGroup, reply: (t) => sock.sendMessage(from, { text: t }, { quoted: msg }) });
+        }
+
         const cmd = commands.get(commandName);
         if (cmd) {
           console.log(`🚀 Executing Command: ${cmd.name}`);

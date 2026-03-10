@@ -36,6 +36,14 @@ module.exports = {
         menuText += `│ ∘ ${config.prefix}uptime - Check bot runtime\n`;
         menuText += `╰─══════════════════\n\n`;
 
+        menuText += `*📚 EDUCATIONAL SERVICES*\n`;
+        menuText += `│ ∘ ${config.prefix}explain / .shortnote / .define\n`;
+        menuText += `│ ∘ ${config.prefix}ask / .solve / .homework / .study\n`;
+        menuText += `│ ∘ ${config.prefix}quiz / .mcq / .test / .jamb\n`;
+        menuText += `│ ∘ ${config.prefix}solveimage / .readimage\n`;
+        menuText += `│ ∘ ${config.prefix}dailyfact / .wordoftheday\n`;
+        menuText += `╰─══════════════════\n\n`;
+
         menuText += `*👑 OWNER COMMANDS*\n`;
         menuText += `│ ∘ ${config.prefix}restart - Reboot the domain\n`;
         menuText += `│ ∘ ${config.prefix}eval [code] - Execute JS\n`;

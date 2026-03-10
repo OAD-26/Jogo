@@ -25,14 +25,13 @@ module.exports = {
         return extra.reply('❌ Text is too long! Maximum 50 characters.');
       }
       
-      try {
-        const mp4Buffer = await renderBlinkingVideoWithFfmpeg(text);
-        const webpBuffer = await writeExifVid(mp4Buffer, { packname: 'JOGO BOT' });
-        await sock.sendMessage(extra.from, { sticker: webpBuffer }, { quoted: msg });
-      } catch (error) {
-        console.error('Error generating attp sticker:', error);
-        await extra.reply('❌ Failed to generate the sticker.');
-      }
+      const config = require('../../config');
+      const url = `https://api.aggelos-007.xyz/attp?text=${encodeURIComponent(text)}`;
+      await sock.sendMessage(extra.from, { 
+        sticker: { url: url }, 
+        packname: config.packname, 
+        author: config.author 
+      }, { quoted: msg });
     } catch (error) {
       console.error('ATTP command error:', error);
       await extra.reply('❌ An error occurred while creating animated sticker!');
